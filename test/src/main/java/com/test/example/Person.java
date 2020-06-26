@@ -12,6 +12,8 @@ public class Person {
 	
 	private String lastname;
 	
+	private Child1 child;
+	
 	@DecimalMin(value = "0.1", inclusive = true)
 	@DecimalMax(value = "250.0", inclusive = true)
 	private double height;
@@ -19,7 +21,7 @@ public class Person {
 	@NotNull
 	@DecimalMin(value = "0.1", inclusive = true)
 	@DecimalMax(value = "200.0", inclusive = true)
-	private Double width;
+	private Double weight;
 	
 	private boolean slovenian;
 	
@@ -28,14 +30,14 @@ public class Person {
 		this.name = "name";
 		this.lastname = "lastname";
 		this.height = 0;
-		this.width = 0.0;
+		this.weight = 0.0;
 	}
 	
-	Person(String name, String lastname, double height, Double width, boolean slovenian) {
+	Person(String name, String lastname, double height, Double width, boolean slovenian, Child1 child) {
 		this.name = name;
 		this.lastname = lastname;
 		this.height = height;
-		this.width = width;
+		this.weight = width;
 		this.slovenian = slovenian;
 	}
 	
@@ -63,12 +65,12 @@ public class Person {
 		this.height = height;
 	}
 	
-	public Double getWidth() {
-		return width;
+	public Double getWeight() {
+		return weight;
 	}
 	
-	public void setWidth(Double width) {
-		this.width = width;
+	public void setWeight(Double width) {
+		this.weight = width;
 	}
 	
 	public boolean getSlovenian() {
@@ -77,5 +79,13 @@ public class Person {
 	
 	public void setSlovenian(boolean slovenian) {
 		this.slovenian = slovenian;
+	}
+	
+	public Child1 getChild() {
+		return child;
+	}
+	
+	public void setChild(Child1 child) {
+		this.child = child;
 	}
 }

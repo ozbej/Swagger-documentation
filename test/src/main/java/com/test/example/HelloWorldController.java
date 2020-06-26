@@ -1,6 +1,9 @@
 package com.test.example;
 
 
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -86,25 +90,43 @@ public class HelloWorldController {
 	@RequestMapping(value= "/person", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public String postPerson(@Valid @RequestBody Person person) {
-			return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWidth());
+			return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWeight());
 	}
 	@RequestMapping(value= "/person/list", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public String personList(@Valid @RequestBody Person person) {
-			return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWidth());
+			return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWeight());
 	}
 	@RequestMapping(value= "/person/child1", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
 	public String postChild1(@Valid @RequestBody Child1 person) {
-		return String.format("Person: %s %s %s, %.2f %.2f", person.getName(), person.getMiddlename(), person.getLastname(), person.getHeight(), person.getWidth());
-	}
-	@ExceptionHandler(MissingServletRequestParameterException.class)
-	public String handleMissingParams(MissingServletRequestParameterException ex) {
-	    return "Nobody";
+		return String.format("Person: %s %s %s, %.2f %.2f", person.getName(), person.getMiddlename(), person.getLastname(), person.getHeight(), person.getWeight());
 	}
 	
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public String valdiationFail(MethodArgumentNotValidException ex) {
-	    return "Validation failed";
-	}
+	/*
+	@GetMapping(value= "/vehicle")
+	public List<Vehicle> findVehicles(@RequestParam("type") String type) {
+        return new ArrayList<Vehicle>();
+    }
+    */
+	
+
+	@RequestMapping(value = "/zoo", headers="Accept=application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public String zoo(@Valid @RequestBody Zoo animal) {
+    	return "ZOO";
+    }
+	
+	/*@RequestMapping(value = "/zoo/dog", headers="Accept=application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public String dog(@Valid @RequestBody Dog animal) {
+    	return "DOG";
+    }
+	
+	@RequestMapping(value = "/zoo/cat", headers="Accept=application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public String cat(@Valid @RequestBody Cat animal) {
+    	return "cat";
+    }
+	 */
 }
