@@ -74,6 +74,12 @@ public class HelloWorldController {
 		return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWidth());
 	}
 	
+	@RequestMapping(value= "/person/child1", headers="Accept=application/json", method = RequestMethod.POST)
+	@ResponseBody
+	public String postChild1(@Valid @RequestBody Child1 person) {
+		return String.format("Person: %s %s %s, %.2f %.2f", person.getName(), person.getMiddlename(), person.getLastname(), person.getHeight(), person.getWidth());
+	}
+	
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public String handleMissingParams(MissingServletRequestParameterException ex) {
 	    return "Nobody";

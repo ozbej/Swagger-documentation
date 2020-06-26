@@ -1,26 +1,26 @@
 package com.test.example;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 public class Person {
-	@NotBlank
 	private String name;
 	
-	@NotBlank
 	private String lastname;
 	
-	@NotBlank
-	@Size(min = 0, max = 250)
+	@DecimalMin(value = "0.1", inclusive = true)
+	@DecimalMax(value = "250.0", inclusive = true)
 	private double height;
 	
 	@NotNull
-	@Size(min = 0, max = 150)
+	@DecimalMin(value = "0.1", inclusive = true)
+	@DecimalMax(value = "200.0", inclusive = true)
 	private Double width;
 	
-	@NotBlank
 	private boolean slovenian;
 	
 	
