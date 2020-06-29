@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.validation.Valid;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -94,8 +96,12 @@ public class HelloWorldController {
 	}
 	@RequestMapping(value= "/person/list", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public String personList(@Valid @RequestBody Person person) {
-			return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWeight());
+	public List<String> personList(@RequestBody PersonWrapper wrapper) {
+		List<String> response = new ArrayList<String>();
+        for (PersonForList person: wrapper.getPersons()){
+        	response.add("Saved person: " + person.getName());
+        }
+        return response;
 	}
 	@RequestMapping(value= "/person/child1", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
@@ -103,12 +109,10 @@ public class HelloWorldController {
 		return String.format("Person: %s %s %s, %.2f %.2f", person.getName(), person.getMiddlename(), person.getLastname(), person.getHeight(), person.getWeight());
 	}
 	
-	/*
-	@GetMapping(value= "/vehicle")
-	public List<Vehicle> findVehicles(@RequestParam("type") String type) {
-        return new ArrayList<Vehicle>();
-    }
-    */
+	/*@GetMapping(value= "/vehicle")
+	public List<Person> findVehicles(@RequestParam("type") String type) {
+        return new ArrayList<Person>();
+    }*/
 	
 
 	@RequestMapping(value = "/zoo", headers="Accept=application/json", method = RequestMethod.POST)
