@@ -110,6 +110,20 @@ public class HelloWorldController {
     }
     */
 	
+	@RequestMapping(
+	         value="/listperson", 
+	         method=RequestMethod.POST,
+	         consumes="application/json",
+	         produces="application/json")
+	@ResponseBody
+	public List<ListedPerson> savePerson(@RequestBody ListedPerson[] personArray) {
+	    List<ListedPerson> response = new ArrayList<ListedPerson>();
+	    for (ListedPerson person: personArray) {
+	        response.add(person);
+	    }
+	    return response;
+	}
+	
 
 	@RequestMapping(value = "/zoo", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
