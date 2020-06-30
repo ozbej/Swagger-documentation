@@ -2,25 +2,20 @@ package com.test.example;
 
 
 import java.util.List;
+import java.util.MissingFormatArgumentException;
 import java.util.ArrayList;
 
 import javax.validation.Valid;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -68,6 +63,12 @@ public class HelloWorldController {
 		return "TTTTEEEEEEESTT";
 	}
 	
+	@RequestMapping(value= "/error", method = RequestMethod.GET)
+	@ResponseBody
+	public void throwError() {
+		throw new TestException();
+	}
+	
 	/*@RequestMapping(value= "/person", method = RequestMethod.POST)
 	@ResponseBody
 	public String postPerson(@RequestParam String name, @RequestParam String lastname) {
@@ -86,12 +87,12 @@ public class HelloWorldController {
 	    content = { @Content(mediaType = "application/json", 
 	      schema = @Schema(implementation = Person.class)) }),
 	  @ApiResponse(responseCode = "400", description = "Invalid parameters", 
-	    content = @Content), 
-	  @ApiResponse(responseCode = "404", description = "Invalid parameters", 
+	    content = { @Content(schema = @Schema(implementation = ErrorMessage.class)) }), 
+	  @ApiResponse(responseCode = "404", description = "Error", 
 	    content = @Content) })
 	@RequestMapping(value= "/person", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public String postPerson(@Valid @RequestBody Person person) {
+	public String postPerson(@Valid @RequestBody PersonForList person) {
 			return String.format("Person: %s %s, %.2f %.2f", person.getName(), person.getLastname(), person.getHeight(), person.getWeight());
 	}
 	@RequestMapping(value= "/person/list", headers="Accept=application/json", method = RequestMethod.POST)
@@ -105,8 +106,8 @@ public class HelloWorldController {
 	}
 	@RequestMapping(value= "/person/child1", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
-	public String postChild1(@Valid @RequestBody Child1 person) {
-		return String.format("Person: %s %s %s, %.2f %.2f", person.getName(), person.getMiddlename(), person.getLastname(), person.getHeight(), person.getWeight());
+	public Child1 postChild1(@Valid @RequestBody Child1 person) {
+		return person;
 	}
 	
 	/*@GetMapping(value= "/vehicle")
@@ -134,6 +135,7 @@ public class HelloWorldController {
 	public String zoo(@Valid @RequestBody Zoo animal) {
     	return "ZOO";
     }
+	
 	
 	/*@RequestMapping(value = "/zoo/dog", headers="Accept=application/json", method = RequestMethod.POST)
 	@ResponseBody
